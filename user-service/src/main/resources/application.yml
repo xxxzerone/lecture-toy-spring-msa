@@ -2,6 +2,9 @@ server:
   port: 0 # 0은 random port 사용
 
 spring:
+  output:
+    ansi:
+      enabled: always
   application:
     name: user-service
 
@@ -38,3 +41,11 @@ eureka:
 
 greeting:
   message: Welcome to the Simple E-commerce.
+
+logging:
+  level:
+    com.example.userservice: debug
+
+token:
+  expiration_time: 86400000
+  secret: usertokenc3ByaW5nLWJvb3QtYW5kLWNsb3VkLWp3dC11c2VyLXRva2Vugfdhs345346hsd34jeDGHRUawert4563dfgdg
