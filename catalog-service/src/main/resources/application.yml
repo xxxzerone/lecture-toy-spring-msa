@@ -1,0 +1,48 @@
+server:
+  port: 0 # 0은 random port 사용
+
+spring:
+  application:
+    name: catalog-service
+
+  h2:
+    console:
+      enabled: true
+      settings:
+        web-allow-others: true
+      path: /h2-console
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+    generate-ddl: true
+    defer-datasource-initialization: true
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:testdb
+  sql:
+    init:
+      mode: always
+
+#    username: sa
+#    password:
+
+eureka:
+  # random port를 사용하면 eureka 서버에 애플리케이션 인식이 ip:application-name:port로 지정이 되는데
+  # port가 동적으로 만들어져도 application.yml로 지정된 것으로 나오는 것을 instance-id 설정으로 변경해준다
+  instance:
+    #    instance-id: ${spring.cloud.client.hostname}:${spring.application.instance_id:${random.value}}
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+  client:
+    register-with-eureka: true
+    # eureka 서버로부터 인스턴스들의 정보를 주기적으로 가져올 것인지를 설정하는 속성
+    # 갱신된 정보를 받겠다는 설정
+    fetch-registry: true
+    # user-service는 eureka 서버에 등록될 eureka client 역할
+    # 서버의 위치가 어디인지 알려주는 속성
+    service-url:
+      defaultZone: http://127.0.0.1:8761/eureka
+
+logging:
+  level:
+    com.example.catalogservice: debug
