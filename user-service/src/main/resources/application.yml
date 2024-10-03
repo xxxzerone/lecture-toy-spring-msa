@@ -7,6 +7,11 @@ spring:
       enabled: always
   application:
     name: user-service
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: guest
+    password: guest
 
   h2:
     console:
@@ -46,6 +51,22 @@ logging:
   level:
     com.example.userservice: debug
 
-token:
-  expiration_time: 86400000
-  secret: usertokenc3ByaW5nLWJvb3QtYW5kLWNsb3VkLWp3dC11c2VyLXRva2Vugfdhs345346hsd34jeDGHRUawert4563dfgdg
+---
+spring:
+  cloud:
+    config:
+      name: ecommerce
+  profiles:
+    active: dev
+  config:
+    import: optional:configserver:http://localhost:8888
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+#token:
+#  expiration_time: 86400000
+#  secret: usertokenc3ByaW5nLWJvb3QtYW5kLWNsb3VkLWp3dC11c2VyLXRva2Vugfdhs345346hsd34jeDGHRUawert4563dfgdg

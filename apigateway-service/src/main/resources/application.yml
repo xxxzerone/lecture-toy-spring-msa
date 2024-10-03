@@ -14,9 +14,20 @@ spring:
       enabled: always
   application:
     name: apigateway-service
-    # java code filter에서 작성 가능(FilterConfig.java)
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: guest
+    password: guest
+  profiles:
+    active: dev
+  config:
+    import: optional:configserver:http://localhost:8888
   cloud:
+    config:
+      name: ecommerce
     gateway:
+      # java code filter에서 작성 가능(FilterConfig.java)
       default-filters:
         - name: GlobalFilter
           args:
@@ -53,6 +64,14 @@ spring:
             - RemoveRequestHeader=Cookie
             - RewritePath=/user-service/(?<segment>.*), /$\{segment}
             - AuthorizationHeaderFilter
+        - id: user-service
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/user-service/actuator/**
+            - Method=GET,POST
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/user-service/(?<segment>.*), /$\{segment}
         - id: catalog-service
           uri: lb://CATALOG-SERVICE
           predicates:
@@ -82,6 +101,13 @@ spring:
                 baseMessage: Hi, there.
                 preLogger: true
                 postLogger: true
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
 
 token:
   secret: usertokenc3ByaW5nLWJvb3QtYW5kLWNsb3VkLWp3dC11c2VyLXRva2Vugfdhs345346hsd34jeDGHRUawert4563dfgdg

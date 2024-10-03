@@ -84,3 +84,7 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
         response.addHeader("userId", userDetails.getUserId());
     }
 }
+/**
+ * 성함/연락처/원하시는 날짜, 시간/과거시술이력(유/무)/사진/예약경로
+ * 농협 356 0690 9529 63 최예나
+ */
